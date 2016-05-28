@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    window.onload = function () {
+        var oInput = document.getElementById("input");
+        var oWrap = document.getElementById("img");
+        var index = 0;
+        var url = "";
+        oInput.onchange = function () {
+            var val = this.value;
+            var files = this.files[0];
+
+            if(val == ""){
+                alert("请上传图片！");
+            }else if(!/(.gif|png|jpeg|jpg)$/.test(val)){
+                alert("请上传图片格式！");
+            }else{
+                if(window.navigator.userAgent.indexOf("MSIE") > -1 && window.navigator.userAgent.indexOf("compatible") > 1){
+                    url = window.URL.createObjectURl(files);
+                }else{
+                    var fileReady = new FileReader();
+                    fileReady.readAsDataURL(files);
+                    var shtml = "";
+                    fileReady.onload = function () {
+                        shtml = "<img src="+this.result+" />";
+                        fileReady.readAsBinaryString(files);
+                        fileReady.onload = function () {
+                            oWrap.innerHTML += shtml;
+                            index++;
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+</script>
+
+
+</body>
+</html>
